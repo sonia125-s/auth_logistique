@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CommandeComponent } from './commande/commande.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from "@angular/forms";
 import { LignesCommandeComponent } from './lignes-commande/lignes-commande.component';
 import {FormsModule} from "@angular/forms";
@@ -15,6 +15,7 @@ import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 import { LoginComponent } from './login/login.component';
 import { LivraisonComponent } from './livraison/livraison.component';
 import { HomeComponent } from './home/home.component';
+import {JWTInterceptor} from './interceptors/jwtInterceptors';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,11 @@ import { HomeComponent } from './home/home.component';
     FormsModule
 
   ],
-  providers: [],
+  providers: [ {
+    provide: HTTP_INTERCEPTORS,
+    useClass: JWTInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

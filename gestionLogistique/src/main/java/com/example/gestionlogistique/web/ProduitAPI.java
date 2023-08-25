@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
 public class ProduitAPI {
     @Autowired
     private ProduitService produitService;
@@ -43,8 +42,8 @@ public class ProduitAPI {
     public  void deleteProduit (@PathVariable Long id){
         produitService.deleteProduit(id);
     }
-    @GetMapping("logistiques/produit/{id}")
-    public ProduitDTO getProduitById(@PathVariable Long id){
+    @GetMapping("/logistiques/produit/{id}")
+    public ProduitDTO getProductById(@PathVariable Long id){
         return produitService.getProduitById(id);
     }
     @PutMapping("logistiques/produitt/{id}")

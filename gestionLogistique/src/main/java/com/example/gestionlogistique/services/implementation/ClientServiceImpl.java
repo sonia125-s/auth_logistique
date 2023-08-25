@@ -39,8 +39,7 @@ public class ClientServiceImpl implements ClientService {
 @Override
     public List<ClientMoraleDTO> listClientMorale(){
         List<ClientMorale> clientMorales = clientMoraleRepository.findAll();
-        List<ClientMoraleDTO> collect=clientMorales.stream().map(clientMorale -> clientMapper.fromClientMorele(clientMorale)).collect(Collectors.toList());
-        return collect;
+    return clientMorales.stream().map(clientMorale -> clientMapper.fromClientMorele(clientMorale)).collect(Collectors.toList());
     }
     @Override
   public List<ClientPhysiqueDTO> listClientPhysique(){

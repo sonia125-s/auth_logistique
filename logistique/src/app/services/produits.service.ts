@@ -14,11 +14,12 @@ export class ProduitsService {
   public getAllProduits (){
     const token=localStorage.getItem('token');
     console.log(token);
-    const header =new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<Array<ProduitDTO>>("http://localhost:8222/logistiques/produitsDTO",{ headers: header });
+    const header =new HttpHeaders();
+    header.append('Authorization', `Bearer ${token}`)
+    return this.http.get("http://localhost:8222/logistiques/produitsDTO");
   }
   public saveProduit(produitsDTO : ProduitDTO):Observable<ProduitDTO>{
-    return this.http.post<ProduitDTO>("http://localhost:8091/logistiques/produits",produitsDTO);
+    return this.http.post<ProduitDTO>("http://localhost:8222/logistiques/produits",produitsDTO);
   }
 
 

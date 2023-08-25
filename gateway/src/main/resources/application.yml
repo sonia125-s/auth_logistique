@@ -5,6 +5,17 @@ spring:
     name: gateway
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowed-headers: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PATCH
+              - DELETE
+              - PUT
       discovery:
         locator:
           enabled: true

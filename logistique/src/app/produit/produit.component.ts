@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {ProduitDTO} from "../model/DetailleCommande";
-import {ProduitsService} from "../services/produits.service";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {Commande} from "../model/Commande";
-import {CommandeService} from "../services/commande.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {ProduitDTO} from '../model/DetailleCommande';
+import {ProduitsService} from '../services/produits.service';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {Commande} from '../model/Commande';
+import {CommandeService} from '../services/commande.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-produit',
@@ -13,46 +13,47 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class ProduitComponent implements OnInit {
   produits!: Array<ProduitDTO>;
-  filteredProduits!:Array<ProduitDTO>;
-  searchControl ! : FormControl;
-  idProduit!:string;
+  filteredProduits!: Array<ProduitDTO>;
+  searchControl !: FormControl;
+  idProduit!: string;
   showEditForm: boolean = false; // Variable pour contrôler l'affichage du formulaire de modification
   selectedProduit!: ProduitDTO; // Variable pour stocker le produit sélectionné pour la modification
-   modifierProduit!:FormGroup;
-   produit!:ProduitDTO;
-  ajoutProduit!:FormGroup;
-  showaddForm :boolean = false;
-  produitTST!:ProduitDTO;
-  constructor(private produitService : ProduitsService,private fb: FormBuilder,private f: FormBuilder,private fbb: FormBuilder, private router:Router, private  route:ActivatedRoute) {
-    this.searchControl= this.fb.control('');
+  modifierProduit!: FormGroup;
+  produit!: ProduitDTO;
+  ajoutProduit!: FormGroup;
+  showaddForm: boolean = false;
+  produitTST!: ProduitDTO;
+
+  constructor(private produitService: ProduitsService, private fb: FormBuilder, private f: FormBuilder, private fbb: FormBuilder, private router: Router, private route: ActivatedRoute) {
+    this.searchControl = this.fb.control('');
 
   }
 
   ngOnInit(): void {
 
-    this.modifierProduit=this.f.group({
-      id : this.fb.control(""),
-      prix : this.fb.control(""),
-      description : this.fb.control("")
+    this.modifierProduit = this.f.group({
+      id: this.fb.control(''),
+      prix: this.fb.control(''),
+      description: this.fb.control('')
     });
-    this.ajoutProduit=this.fbb.group({
-      id : this.fb.control(""),
-      prix : this.fb.control(""),
-      description : this.fb.control("")
+    this.ajoutProduit = this.fbb.group({
+      id: this.fb.control(''),
+      prix: this.fb.control(''),
+      description: this.fb.control('')
     })
 
 
-      this.getAllCommandes();
-      this.searchControl.valueChanges.subscribe(() => {
-        this.filterProduit();
-
+    this.getAllCommandes();
+    this.searchControl.valueChanges.subscribe(() => {
+      this.filterProduit();
 
 
     });
   }
+
   getAllCommandes(): void {
     this.produitService.getAllProduits()
-      .subscribe((data: ProduitDTO[]) => {
+      .subscribe((data: any) => {
         this.produits = data;
         this.filteredProduits = data;
       });
@@ -71,9 +72,9 @@ export class ProduitComponent implements OnInit {
     this.selectedProduit = produit;
     this.showEditForm = true;
     this.modifierProduit.patchValue({
-      id:produit.id,
-      prix:produit.prix,
-      description:produit.description
+      id: produit.id,
+      prix: produit.prix,
+      description: produit.description
     })
 
   }
@@ -82,7 +83,7 @@ export class ProduitComponent implements OnInit {
     this.produitService.deleteProduit(id).subscribe(
       () => {
         // Suppression du produit réussie, mettez à jour la liste des produits
-        this.produitService.getAllProduits().subscribe((data: ProduitDTO[]) => {
+        this.produitService.getAllProduits().subscribe((data: any) => {
           this.filteredProduits = data;
         });
       },
@@ -94,9 +95,10 @@ export class ProduitComponent implements OnInit {
   }
 
   ajouterProduit() {
-    this.showaddForm=true;
+    this.showaddForm = true;
     this.showEditForm = false;
   }
+
   finishEdit() {
     this.showEditForm = false;
   }
@@ -112,7 +114,7 @@ export class ProduitComponent implements OnInit {
     this.produitService.updateProduit(this.selectedProduit.id, this.selectedProduit).subscribe(
       (produitUpdated) => {
         // Mise à jour du produit réussie, mettez à jour la liste des produits
-        this.produitService.getAllProduits().subscribe((data: ProduitDTO[]) => {
+        this.produitService.getAllProduits().subscribe((data: any) => {
           this.filteredProduits = data;
         });
         console.log('Produit mis à jour:', produitUpdated);
@@ -127,7 +129,7 @@ export class ProduitComponent implements OnInit {
   }
 
   finishajout() {
-    this.showaddForm=false;
+    this.showaddForm = false;
   }
 
   ajouterProd() {
@@ -138,19 +140,19 @@ export class ProduitComponent implements OnInit {
       prix: this.ajoutProduit.value.prix,
       description: this.ajoutProduit.value.description
     };
-console.log("***produit");
-console.log(nouveauProduit);
+    console.log('***produit');
+    console.log(nouveauProduit);
     this.produitService.saveProduit(nouveauProduit).subscribe(
-      (produit)=>{
-        this.produitService.getAllProduits().subscribe((data:ProduitDTO[])=>{
-          this.filteredProduits=data;
+      (produit) => {
+        this.produitService.getAllProduits().subscribe((data: any) => {
+          this.filteredProduits = data;
         });
 
       },
-      (error)=>{
-        console.error('erreur:',error);
+      (error) => {
+        console.error('erreur:', error);
       }
-      );
-    this.showaddForm=false;
+    );
+    this.showaddForm = false;
   }
 }
